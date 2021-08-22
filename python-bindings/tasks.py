@@ -46,7 +46,7 @@ def build_cmult(c, path=None):
     c: invoke.Context
     if on_win:
         print_banner("Building C Library")
-        cmd = "gcc -c -Wall -Werror -fpic cmult.c -I /usr/include/python3.7"
+        cmd = "gcc -c cmult.c"
         invoke.run(cmd)
         invoke.run("gcc -shared -o cmult.dll cmult.o")
         print("* Complete")
