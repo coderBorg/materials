@@ -45,16 +45,11 @@ def build_cmult(c, path=None):
     # Moving this type hint into signature causes an error (???)
     c: invoke.Context
     if on_win:
-        if not path:
-            print("Path is missing")
-        else:
-            # Using c.cd didn't work with paths that have spaces :/
-            path = f'"{path}vcvars32.bat" x86'  # Enter the VS venv
-            path += f'&& cd "{os.getcwd()}"'  # Change to current dir
-            path += "&& cl /LD cmult.c"  # Compile
-            # Uncomment line below, to suppress stdout
-            # path = path.replace("&&", " >nul &&") + " >nul"
-            c.run(path)
+        print_banner("Building C Library")
+        cmd = "gcc -c -Wall -Werror -fpic cmult.c -I /usr/include/python3.7"
+        invoke.run(cmd)
+        invoke.run("gcc -shared -o cmult.dll cmult.o")
+        print("* Complete")
     else:
         print_banner("Building C Library")
         cmd = "gcc -c -Wall -Werror -fpic cmult.c -I /usr/include/python3.7"

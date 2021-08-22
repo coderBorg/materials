@@ -10,7 +10,9 @@ if __name__ == "__main__":
 
     # Load the shared library into c types.
     if sys.platform.startswith("win"):
-        c_lib = ctypes.CDLL(libname / "cmult.dll")
+        full_path = libname.joinpath("cmult.dll")
+        print(f'full_path: {full_path}')
+        c_lib = ctypes.CDLL(str(full_path))
     else:
         c_lib = ctypes.CDLL(libname / "libcmult.so")
 
